@@ -2,7 +2,7 @@
 
 **Orsolya Anna Pipek, Anna Medgyes-Horváth, József Stéger, Krisztián Papp, Dávid Visontai, VEO Technical Working Group, István Csabai**
 
->Systematic monitoring of SARS-CoV-2 co-infection cases and assessing the risk of recombinant emergence are crucial for forecasting the milestones of viral evolution and their potential clinical impact. Here we present a comprehensive analysis of more than 2 million SARS-CoV-2 samples of the COVID-19 Data Portal to identify co-infections and traces of subclonal recombination. Co-infection was reliably present in 0.33% of the investigated cases. Two independent procedures were implemented to detect evidence of subclonal recombination. We show that sensitivity is predominantly determined by the density of defining mutations along the genome, thus we used an expanded list of disjunct defining mutations of specific variant combinations to increase statistical power. We call attention to multiple challenges rendering recombinant detection difficult and estimate artifactual chimeric sequences to be present at a minimum rate of 10%, thus facilitating the mitigation of false positives studies exploring the recombination potential of SARS-CoV-2 in clinical samples.
+>Systematic monitoring of SARS-CoV-2 co-infection cases and assessing the risk of recombinant emergence are crucial for forecasting the milestones of viral evolution and their potential clinical impact. Here we present a comprehensive analysis of more than 2 million SARS-CoV-2 samples of the COVID-19 Data Portal to identify co-infections and traces of subclonal recombination. Co-infection was reliably present in 0.33% of the investigated cases. Two independent procedures were implemented to detect evidence of subclonal recombination. We show that sensitivity is predominantly determined by the density of defining mutations along the genome, thus we used an expanded list of disjunct defining mutations of specific variant combinations to increase statistical power. We call attention to multiple challenges rendering recombinant detection difficult and estimate artifactual chimeric sequences to be present at a minimum rate of 10%, thus facilitating the mitigation of false positives in studies exploring the recombination potential of SARS-CoV-2 in clinical samples.
 
 
 This repository contains additional data files, supplementary figures and analysis pipelines for the above manuscript.
@@ -17,12 +17,12 @@ This repository contains additional data files, supplementary figures and analys
 - **Supplementary Table 1.** Co-infection prevalence in different [ENA](https://www.ebi.ac.uk/ena/) studies. Studies are listed in decreasing order based on the total number of their good-quality samples. Studies highlighted in grey had co-infection prevalence larger than 20%. [\[xlsx\]](SuppTables/SuppTable1.xlsx)
 - **Supplementary Table 2.** List of unique variant-defining mutations used in the study. Samples presenting a ratio of at least 0.5 of unique defining mutations for at least two different variants were retained for further analysis. Prevalences indicate the percentage of [GISAID](https://gisaid.org/) samples assigned to the specific variant that had the given mutation. [\[xlsx\]](SuppTables/SuppTable2.xlsx)
 - **Supplementary Table 3.** Number of unique variant-defining mutations used in the study for each investigated variant. [\[xlsx\]](SuppTables/SuppTable3.xlsx)
-- !!!!!!!!!!! **Supplementary Table 4.** List of disjunct variant-defining mutations considered for each variant combination. [\[xlsx\]](SuppTables/SuppTable4.xlsx)
+- [not yet uploaded] **Supplementary Table 4.** List of disjunct variant-defining mutations considered for each variant combination. [\[xlsx\]](SuppTables/SuppTable4.xlsx)
 
-- !!!!!!!!!!! **Supplementary File 1 - analysis pipeline.** Detailed pipeline of subclonal recombination detection from allele frequency distributions at disjunct defining mutations, along with corrections for allele frequency bias and interpretation of analysis results. [\[html\]]()
-- !!!!!!!!!!! **Supplementary File 2 - analysis pipeline.** Detailed pipeline of detecting short reads overlapping defining mutations of multiple variants and carrying signs of recombination, along with the identification of chimeric sequences and subgenomic RNA. [\[html\]]()
+- [not yet uploaded] **Supplementary File 1 - analysis pipeline.** Detailed pipeline of subclonal recombination detection from allele frequency distributions at disjunct defining mutations, along with corrections for allele frequency bias and interpretation of analysis results. [\[html\]]()
+- [not yet uploaded] **Supplementary File 2 - analysis pipeline.** Detailed pipeline of detecting short reads overlapping defining mutations of multiple variants and carrying signs of recombination, along with the identification of chimeric sequences and subgenomic RNA. [\[html\]]()
 
-## !!!!!!!!!!! Additional data files
+## [not yet uploaded] Additional data files
 
 - list with at least 0.5 of unique muts in at least two variants
 - list with at least 0.5 of disjunct muts in of all variants of the var comb
