@@ -14,7 +14,7 @@ This repository contains additional data files, supplementary figures and analys
 - !!!!!!!!!!! **Supplementary Figure 3.** GISAID blabla. [\[png\]]() [\[pdf\]]()
 
 
-- **Supplementary Table 1.** Co-infection prevalence in different [ENA](https://www.ebi.ac.uk/ena/) studies. Studies are listed in decreasing order based on the total number of their good-quality samples. Studies highlighted in grey had co-infection prevalence larger than 20%. [\[xlsx\]]()
+- **Supplementary Table 1.** Co-infection prevalence in different [ENA](https://www.ebi.ac.uk/ena/) studies. Studies are listed in decreasing order based on the total number of their good-quality samples. Studies highlighted in grey had co-infection prevalence larger than 20%. [\[xlsx\]](SuppTables/SuppTable1.xlsx)
 - **Supplementary Table 2.** List of unique variant-defining mutations used in the study. Samples presenting a ratio of at least 0.5 of unique defining mutations for at least two different variants were retained for further analysis. Prevalences indicate the percentage of [GISAID](https://gisaid.org/) samples assigned to the specific variant that had the given mutation. [\[xlsx\]]()
 - **Supplementary Table 3.** Number of unique variant-defining mutations used in the study for each investigated variant. [\[xlsx\]]()
 - !!!!!!!!!!! **Supplementary Table 4.** List of disjunct variant-defining mutations considered for each variant combination. [\[xlsx\]]()
