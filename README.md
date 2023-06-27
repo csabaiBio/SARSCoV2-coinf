@@ -24,33 +24,33 @@ This repository contains additional data files, supplementary figures and analys
 
 ## Additional data files
 
-- **Additional data file 1.** List of *unique* defining mutations in samples where at least 50% of *unique* defining mutations of at least two variants were present. [\[csv\]](data/datafile1.csv)
+- **Additional data file 1.** List of *unique* defining mutations in samples where at least 50% of *unique* defining mutations of at least two variants were present. [\[tar.gz\]](data/datafile1.tar.gz)
   -   fields:
-    - `runid`: integer identifying the sample
-    - `pos`: genomic position of the mutation
-    - `ref`: reference allele at the genomic position
-    - `alt`: alternate allele at the genomic position
-    - `dp`: sequencing depths at the genomic position
-    - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
-    - `variant`: the mutation is a unique defining mutation of `variant`
-    - `variants`: list of variants for which at least 50% of unique defining mutations are present in the sample
+      - `runid`: integer identifying the sample
+      - `pos`: genomic position of the mutation
+      - `ref`: reference allele at the genomic position
+      - `alt`: alternate allele at the genomic position
+      - `dp`: sequencing depths at the genomic position
+      - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
+      - `variant`: the mutation is a unique defining mutation of `variant`
+      - `variants`: list of variants for which at least 50% of unique defining mutations are present in the sample
   - *Note:* The file only contains the *unique* defining mutations of those variants for each sample that are listed in the `variants` column. Defining mutations with no evidence in the sequencing data of a sample are not included.
 
-- **Additional data file 2.** List of *disjunct* defining mutations in samples where at least 50% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[csv\]](data/datafile2.csv)
+- **Additional data file 2.** List of *disjunct* defining mutations in samples where at least 50% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[tar.gz\]](data/datafile2.tar.gz)
   -   fields:
-    - `runid`: integer identifying the sample
-    - `pos`: genomic position of the mutation
-    - `ref`: reference allele at the genomic position
-    - `alt`: alternate allele at the genomic position
-    - `dp`: sequencing depths at the genomic position
-    - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
-    - `variant`: the mutation is a *disjunct* defining mutation of `variant`
-    - `num_defmuts`: number of *disjunct* defining mutations of `variant` present in the sample
-    - `num_total_markers`: total number of *disjunct* defining mutations of `variant` (in the given variant combination indicated in the `variants` column)
-    - `variants`: variant combination of the sample
+      - `runid`: integer identifying the sample
+      - `pos`: genomic position of the mutation
+      - `ref`: reference allele at the genomic position
+      - `alt`: alternate allele at the genomic position
+      - `dp`: sequencing depths at the genomic position
+      - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
+      - `variant`: the mutation is a *disjunct* defining mutation of `variant`
+      - `num_defmuts`: number of *disjunct* defining mutations of `variant` present in the sample
+      - `num_total_markers`: total number of *disjunct* defining mutations of `variant` (in the given variant combination indicated in the `variants` column)
+      - `variants`: variant combination of the sample
   - *Note:* The file only contains the *disjunct* defining mutations of those variants for each sample that are listed in the `variants` column. Defining mutations with no evidence in the sequencing data of a sample are not included.
 
-- **Additional data file 3.** List of *disjunct* defining mutations in samples where at least 80% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[csv\]](data/datafile3.csv)
+- **Additional data file 3.** List of *disjunct* defining mutations in samples where at least 80% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[tar.gz\]](data/datafile3.tar.gz)
   -   fields: same as for Additional data file 2. (above)
 
 - [not yet uploaded] coinf sample meta
