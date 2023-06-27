@@ -22,10 +22,36 @@ This repository contains additional data files, supplementary figures and analys
 - [not yet uploaded] **Supplementary File 1 - analysis pipeline.** Detailed pipeline of subclonal recombination detection from allele frequency distributions at disjunct defining mutations, along with corrections for allele frequency bias and interpretation of analysis results. [\[html\]]()
 - [not yet uploaded] **Supplementary File 2 - analysis pipeline.** Detailed pipeline of detecting short reads overlapping defining mutations of multiple variants and carrying signs of recombination, along with the identification of chimeric sequences and subgenomic RNA. [\[html\]]()
 
-## [not yet uploaded] Additional data files
+## Additional data files
 
-- list with at least 0.5 of unique muts in at least two variants
-- list with at least 0.5 of disjunct muts in of all variants of the var comb
-- final list of coinf sample muts
-- coinf sample meta
-- samples selected for read-level analysis
+- **Additional data file 1.** List of *unique* defining mutations in samples where at least 50% of *unique* defining mutations of at least two variants were present. [\[csv\]](data/datafile1.csv)
+  -   fields:
+    - `runid`: integer identifying the sample
+    - `pos`: genomic position of the mutation
+    - `ref`: reference allele at the genomic position
+    - `alt`: alternate allele at the genomic position
+    - `dp`: sequencing depths at the genomic position
+    - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
+    - `variant`: the mutation is a unique defining mutation of `variant`
+    - `variants`: list of variants for which at least 50% of unique defining mutations are present in the sample
+  - *Note:* The file only contains the *unique* defining mutations of those variants for each sample that are listed in the `variants` column. Defining mutations with no evidence in the sequencing data of a sample are not included.
+
+- **Additional data file 2.** List of *disjunct* defining mutations in samples where at least 50% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[csv\]](data/datafile2.csv)
+  -   fields:
+    - `runid`: integer identifying the sample
+    - `pos`: genomic position of the mutation
+    - `ref`: reference allele at the genomic position
+    - `alt`: alternate allele at the genomic position
+    - `dp`: sequencing depths at the genomic position
+    - `af`: ratio of reads supporting the alternate allele (alternate allele frequency)
+    - `variant`: the mutation is a *disjunct* defining mutation of `variant`
+    - `num_defmuts`: number of *disjunct* defining mutations of `variant` present in the sample
+    - `num_total_markers`: total number of *disjunct* defining mutations of `variant` (in the given variant combination indicated in the `variants` column)
+    - `variants`: variant combination of the sample
+  - *Note:* The file only contains the *disjunct* defining mutations of those variants for each sample that are listed in the `variants` column. Defining mutations with no evidence in the sequencing data of a sample are not included.
+
+- **Additional data file 3.** List of *disjunct* defining mutations in samples where at least 80% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[csv\]](data/datafile3.csv)
+  -   fields: same as for Additional data file 2. (above)
+
+- [not yet uploaded] coinf sample meta
+- [not yet uploaded] samples selected for read-level analysis
