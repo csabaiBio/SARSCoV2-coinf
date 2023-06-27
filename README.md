@@ -60,4 +60,4 @@ This repository contains additional data files, supplementary figures and analys
       - `study_accession`: ENA study accession
       - `experiment_accession`: ENA experiment accession
 
-- [not yet uploaded] samples selected for read-level analysis
+- **Additional data file 5.** 118 co-infection samples selected for read-level analysis. [\[tar.gz\]](data/datafile5.tar.gz)
