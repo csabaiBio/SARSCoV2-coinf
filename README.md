@@ -53,5 +53,11 @@ This repository contains additional data files, supplementary figures and analys
 - **Additional data file 3.** List of *disjunct* defining mutations in samples where at least 80% of *disjunct* defining mutations of all variants of the sample's variant combination are present. [\[tar.gz\]](data/datafile3.tar.gz)
   -   fields: same as for Additional data file 2. (above)
 
-- [not yet uploaded] coinf sample meta
+- **Additional data file 4.** [ENA accession IDs](https://ena-docs.readthedocs.io/en/latest/submit/general-guide/accessions.html) for co-infection samples. [\[tar.gz\]](data/datafile4.tar.gz)
+  -   fields:
+      - `runid`: integer identifying the sample (same as in the above data files)
+      - `sample_accession`: ENA sample accession
+      - `study_accession`: ENA study accession
+      - `experiment_accession`: ENA experiment accession
+
 - [not yet uploaded] samples selected for read-level analysis
