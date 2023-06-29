@@ -67,3 +67,34 @@ This repository contains additional data files, supplementary figures and analys
 - **Additional data file 5.** 118 co-infection samples selected for read-level analysis. [\[tar.gz\]](data/datafile5.tar.gz)
   -   fields: same as for Additional data file 4. (above)
   -   Sample selection: The original set of previously detected 7,413 co-infection samples was first limited to those 6,999 that contained traces of exactly two variants. (I.e. samples identified as the mixtures of three or more variant strains were discarded.) Then the resulting set of samples was further downsampled to a set of 100 samples for the read-level analysis to decrease computation time and simultaneously preserve the prevalence of specific variant combinations. The 13 co-infection samples identified as putative subclonal recombinants based on alternate allele frequency (AF) shifts along their genome (see Supplementary File 1) were added to this list, along with 5 artificial mixture samples of study PRJNA827817, resulting in altogether 118 samples for read-level explorations.
+
+- **Additional data file 6.** Detailed metadata for co-infection samples. [\[tar.gz\]](data/datafile6.tar.gz)
+  -   fields:
+      - `runid`: integer identifying the sample (same as in the above data files)
+      - `sample_accession`: ENA sample accession
+      - `experiment_accession`: ENA experiment accession
+      - `study_accession`: ENA study accession
+      - `variants`: variant combination of the sample (sorted in alphabetic order)
+      - `collection_date`: date of sample collection
+      - `collection_date_valid`: boolean indicating whether the collection date was correctly provided by the uploader
+      - `first_created`: date of data upload
+      - `country_name`: name of the originating country
+      - `instrument_platform`: sequencing platform
+      - `instrument_model`: model of sequencing instrument
+      - `host`: virus-host
+      - `description`: string provided by the uploader describing the sample/experiment
+
+## Additional analysis pipelines      
+
+- **Additional pipeline 1.** PostgreSQL queries for co-infection detection using the CoVEO database. [\[html\]](pipelines/AddPipeline1_data_generation.html)
+  - **Data files needed as input:**
+      - list of mutations with lineage-specific prevalences in the GISAID database
+        - [datatable](https://github.com/rvalieris/LCS/blob/master/data/pre-generated-marker-tables/pango-designation-markers-v1.9.tsv.gz) provided by [rvalieris/LCS](https://github.com/rvalieris/LCS)
+        - original paper describing the data: *Valieris, R. et al. A mixture model for determining SARS-Cov-2 variant composition in pooled samples. Bioinformatics (2022) doi:10.1093/bioinformatics/btac047.*
+  - **Data files generated as output:**
+      - Additional data file 1.
+      - Additional data file 2.
+      - Additional data file 3.
+      - Additional data file 4.
+      - Additional data file 6.
+      
