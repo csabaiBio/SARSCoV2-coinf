@@ -9,8 +9,12 @@ This repository contains additional data files, supplementary figures and analys
 
 ## Supplementary files
 
-- **Supplementary Figure 1.** The number of samples with reasonable coverage of the SARS-CoV-2 genome (see the Methods of the above paper for details) assigned to different variants in the [CoVEO](https://www.covid19dataportal.org/coveo) database. [\[png\]](SuppFigures/SuppFig1.png) [\[pdf\]](SuppFigures/SuppFig1.pdf)
-- **Supplementary Figure 2.** Temporal distribution of co-infection samples for variant combinations with more than 50 samples. (The same figures for the top 4 most abundant combinations are shown in Figure 1C of the main manuscript.) Prevalence curves indicate the number of [GISAID](https://gisaid.org/) samples assigned to the respective variants (binned weekly). Blue vertical lines on the bottom panels mark the collection date of co-infection samples of the given variants. Whenever the collection date was not available, the date of data upload was used as a proxy, marked with red vertical lines. [\[png\]](SuppFigures/SuppFig2.png) [\[pdf\]](SuppFigures/SuppFig2.pdf)
+- **Supplementary Figure 1.** The number of samples in the [CoVEO](https://www.covid19dataportal.org/coveo) database. **A.** The number of good-quality
+SARS-CoV-2 samples with a human host assigned to different variants in the CoVEO database. **B.** The
+relationship between the total number of samples assigned to a specific variant and the number of coinfection
+samples containing the variant. The straight black line represents a linear dependence with a slope
+of 1 on a log-log graph. R represents the Pearson-correlation coefficient. [\[png\]](SuppFigures/SuppFig1.png) [\[pdf\]](SuppFigures/SuppFig1.pdf)
+- **Supplementary Figure 2.** Temporal distribution of co-infection samples for variant combinations with more than 50 samples. (The same figures for the top 4 most abundant combinations are shown in Figure 1C of the main manuscript.) Prevalence curves indicate the number of [GISAID](https://gisaid.org/) samples assigned to the respective variants (binned weekly). Blue vertical lines on the bottom panels mark the collection date of co-infection samples of the given variants.  [\[png\]](SuppFigures/SuppFig2.png) [\[pdf\]](SuppFigures/SuppFig2.pdf)
 - **Supplementary Figure 3.** Mutually exclusive defining mutations in [GISAID](https://gisaid.org/) samples assigned to the XD, XF and XS ’Deltacron’ (recombinant Delta and Omicron) lineages. Samples (rows) are listed by their GISAID ID, with their Pango lineage indicated in brackets. Defining mutations (columns) are coloured by their respective variant (blue for Delta and red for Omicron). Heatmap colours show whether the given sample contains the given mutation or not (dark blue: present Delta-mutation; light blue: missing Omicron-mutation; dark red: present Omicron-mutation; light red: missing Delta-mutation). Dashed vertical lines mark the recombination breakpoint range(s) for each lineage. (The same genomic regions are indicated with red shaded areas in Figure 4 of the main manuscript.) [\[png\]](SuppFigures/SuppFig3.png) [\[pdf\]](SuppFigures/SuppFig3.pdf)
 
 
@@ -19,10 +23,20 @@ This repository contains additional data files, supplementary figures and analys
 - **Supplementary Table 3.** Number of unique variant-defining mutations used in the study for each investigated variant. [\[xlsx\]](SuppTables/SuppTable3.xlsx) [\[csv\]](SuppTables/SuppTable3.csv)
 - **Supplementary Table 4.** Mutually exclusive defining mutations of specific variant combinations, defined as mutations present in at least 80% of GISAID samples assigned to the given variant, while simultaneously present in less than 10% of the samples assigned to any other variant(s) of the variant combination. (Variant combinations for which no more than 10 putative co-infection samples were detected based on unique defining mutations alone (Supplementary Tables 2 and 3) are not listed.) [\[xlsx\]](SuppTables/SuppTable4.xlsx) [\[csv\]](SuppTables/SuppTable4.csv)
 
-- **Supplementary File 1 - analysis pipeline.** Allele frequency-based identification of putative co-infection samples containing trace amounts of recombinant genomes. [\[html\]](pipelines/SuppFile1_AF_pipeline.html)
+
+- **Supplementary File 1 - analysis pipeline.** PostgreSQL queries for co-infection detection using the CoVEO database. [\[html\]](pipelines/SuppFile1_coinf_pipeline.html)
+  - **Contents:** In this notebook, we query the CoVEO PostgreSQL database to identify SARS-CoV-2 co-infection samples. To this end, we select samples that carry a convincing ratio of unique defining mutations of multiple variant strains. We further refine the set of samples by considering all mutually exclusive defining mutations of their variant combination, finally setting a threshold of 80% for the ratio of mutually exclusive defining mutations that have to be present in all composing variants for a sample to be deemed a co-infection case.
+  - **Data files needed as input:**
+      - list of mutations with lineage-specific prevalences in the GISAID database
+        - [datatable](https://github.com/rvalieris/LCS/blob/master/data/pre-generated-marker-tables/pango-designation-markers-v1.9.tsv.gz) provided by [rvalieris/LCS](https://github.com/rvalieris/LCS)
+        - original paper describing the data: *Valieris, R. et al. A mixture model for determining SARS-Cov-2 variant composition in pooled samples. Bioinformatics (2022) doi:10.1093/bioinformatics/btac047.*
+  - **Data files generated as output:**
+      - Supplementary Tables 1-4.
+      - Additional data files 1-4.     
+- **Supplementary File 2 - analysis pipeline.** Allele frequency-based identification of putative co-infection samples containing trace amounts of recombinant genomes. [\[html\]](pipelines/SuppFile2_AF_pipeline.html)
   - **Contents:** In this notebook, we investigate the alternate allele frequency distributions measured in co-infection samples at the genomic positions of mutually exclusive variant-defining mutations. Our analysis reveals a systematic bias in standardized allele frequency values in samples of specific variant combinations. To detect putative recombinants based on alternate allele frequency shifts along the genome, we employ an initial hard-filtering step on co-infection samples and finally refine our results by introducing a pipeline which is aimed to correct for the above described bias in alternate allele frequency distributions in specific genomic positions. Finally, a list of putative subclonal recombinant samples is selected.
   - **Data files needed as input:** Additional data files 3 and 4
-- **Supplementary File 2 - analysis pipeline.** Traces of read-level recombination in co-infection samples. [\[html\]](pipelines/SuppFile2_read_pipeline.html)
+- **Supplementary File 3 - analysis pipeline.** Traces of read-level recombination in co-infection samples. [\[html\]](pipelines/SuppFile3_read_pipeline.html)
   - **Contents:** In this notebook, we analyse a subset of previously identified co-infection samples for the presence of short reads that overlap variant-defining mutations of both parental strains of the sample and carry both of these mutations simultaneously. We investigate how the genomic distribution of canonical lineage-specific mutations inherently affects the distribution of overlapping reads and thus the detectability of recombination breakpoints. We further examine reads carrying traces of recombination for recombination hotspots, traces of subgenomic RNA, comparability to AF-based analysis results and possible chimeric origin. As an introduction, we discuss the technical and theoretical challenges of subclonal recombinant detection.
   - **Data files needed as input:** Additional data files 3 and 5
 
@@ -77,14 +91,3 @@ This repository contains additional data files, supplementary figures and analys
   -   fields: same as for Additional data file 4. (above)
   -   Sample selection: The original set of previously detected 7,700 co-infection samples was first limited to those 7,290 that contained traces of exactly two variants. (I.e. samples identified as the mixtures of three or more variant strains were discarded.) Then the resulting set of samples was further downsampled to a set of 100 samples for the read-level analysis to decrease computation time and simultaneously preserve the prevalence of specific variant combinations. The 13 co-infection samples identified as putative subclonal recombinants based on alternate allele frequency (AF) shifts along their genome (see Supplementary File 1) were added to this list, along with 5 artificial mixture samples of study PRJNA827817, resulting in altogether 118 samples for read-level explorations.
 
-
-## Additional analysis pipelines      
-
-- **Additional pipeline 1.** PostgreSQL queries for co-infection detection using the CoVEO database. [\[html\]](pipelines/AddPipeline1_data_generation.html)
-  - **Data files needed as input:**
-      - list of mutations with lineage-specific prevalences in the GISAID database
-        - [datatable](https://github.com/rvalieris/LCS/blob/master/data/pre-generated-marker-tables/pango-designation-markers-v1.9.tsv.gz) provided by [rvalieris/LCS](https://github.com/rvalieris/LCS)
-        - original paper describing the data: *Valieris, R. et al. A mixture model for determining SARS-Cov-2 variant composition in pooled samples. Bioinformatics (2022) doi:10.1093/bioinformatics/btac047.*
-  - **Data files generated as output:**
-      - Supplementary Tables 1-4.
-      - Additional data files 1-4.     
