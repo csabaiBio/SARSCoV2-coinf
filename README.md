@@ -1,4 +1,4 @@
-# Systematic detection of co-infection and subclonal recombinants in more than 2 million global SARS-CoV-2 samples 
+# Systematic detection of co-infection and intra-host recombination in more than 2 million global SARS-CoV-2 samples 
 
 **Orsolya Anna Pipek, Anna Medgyes-Horváth, József Stéger, Krisztián Papp, Dávid Visontai, VEO Technical Working Group, István Csabai**
 

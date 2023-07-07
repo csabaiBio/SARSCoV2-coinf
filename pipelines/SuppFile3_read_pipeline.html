@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Orsolya Anna Pipek">
-<meta name="dcterms.date" content="2023-07-06">
+<meta name="dcterms.date" content="2023-07-07">
 
 <title>Traces of read-level recombination in co-infection samples</title>
 <style>
@@ -3018,7 +3018,7 @@ background: #343a40;
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <div class="quarto-title-block"><div><h1 class="title">Traces of read-level recombination in co-infection samples</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
-            <p class="subtitle lead">Supplementary file 3. for manuscript ‘Systematic detection of co-infection and subclonal recombinants in more than 2 million global SARS-CoV-2 samples’</p>
+            <p class="subtitle lead">Supplementary file 3. for manuscript ‘Systematic detection of co-infection and intra-host recombination in more than 2 million global SARS-CoV-2 samples’</p>
                       </div>
   </div>
     
@@ -3042,7 +3042,7 @@ background: #343a40;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 6, 2023</p>
+        <p class="date">July 7, 2023</p>
       </div>
     </div>
     
@@ -4302,6 +4302,9 @@ Note
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-error">
+<pre><code>JupyterRequireError: notebook/js/codecell: Timeout. Library &#39;notebook/js/codecell&#39; is not loaded.</code></pre>
+</div>
 </div>
 <p>Many of the genomic ranges indicated as putative recombination breakpoint ranges in multiple samples coincide with gene boundaries. Additional intragenic hotspots were regions 22578-23202, 23525-23854, and 24130-24503 in gene S and 26530-26767 in gene M in co-infection samples of Delta – Omicron (BA.1) variants (shaded with light blue above). The majority of recombination hotspots detected from short reads do not correspond to regions of recombination identified from clonal recombinants of the GISAID database (samples assigned to Pango lineages XF, XS and XD, shaded with light red above; for more details, see Supplementary Figure 3).</p>
 </section>
@@ -4311,222 +4314,222 @@ Note
 <div class="cell" data-execution_count="432">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_overlapping_reads_for_sample(s, p, pileup_dict):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    firstone <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pos <span class="kw">in</span> p:</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">str</span>(pos) <span class="kw">not</span> <span class="kw">in</span> pileup_dict:</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> {}</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> pileup_dict[<span class="bu">str</span>(pos)]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        reads <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">6</span>].split(<span class="st">&quot;,&quot;</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> firstone:</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> <span class="bu">set</span>(reads)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            firstone <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> overlapping_reads.intersection(<span class="bu">set</span>(reads))</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(overlapping_reads)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_recombinant_reads_for_sample(s, base_comb_muts, overlapping_reads, pileup_dict):</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    recombinant_reads <span class="op">=</span> []</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="bu">list</span>(overlapping_reads):</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        rt <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">sorted</span>(base_comb_muts):</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>            pos <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>            var <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>            mut <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="op">-</span><span class="dv">2</span>].upper()</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>            ref <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">1</span>].upper()</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            mut <span class="op">=</span> correct_mutation_string(ref, mut)</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            k <span class="op">=</span> pileup_dict[<span class="bu">str</span>(pos)]</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">4</span>].upper()</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            bases <span class="op">=</span> get_base_list(b)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            reads <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">6</span>].split(<span class="st">&quot;,&quot;</span>)</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            bases <span class="op">=</span> np.array(bases)</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>            reads <span class="op">=</span> np.array(reads)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>            base <span class="op">=</span> bases[reads <span class="op">==</span> r][<span class="dv">0</span>].upper()</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> base <span class="kw">in</span> [<span class="st">&quot;,&quot;</span>, <span class="st">&quot;.&quot;</span>]:</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;R&quot;</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> base <span class="op">==</span> mut:</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;M&quot;</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;O&quot;</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rt <span class="op">==</span> <span class="st">&quot;MM&quot;</span>:</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>            recombinant_reads.append(r)</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> recombinant_reads</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mkdir <span class="op">-</span>p data_for_recombinant_read_analysis<span class="op">/</span>recombination_sgRNA</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>min_length_of_long_softclip <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>si <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rid <span class="kw">in</span> <span class="bu">list</span>(df_samples[<span class="st">&quot;runid&quot;</span>]):</span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(si, end<span class="op">=</span><span class="st">&quot; &quot;</span>)</span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    si <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># getting basic info about sample</span></span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>    variant_combination, poslist_file, bamfile, sample_short <span class="op">=</span> prepare_sample_details(rid)</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check if sample has already been processed</span></span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.isfile(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_sgRNA/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>):</span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span>    </span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check if recombination detection results are already available</span></span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.isfile(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_detection_results/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>):</span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if no recombinant reads were found, also skip</span></span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_detection_results/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>)</span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> df_tmp[df_tmp[<span class="st">&quot;recombinant_reads&quot;</span>]<span class="op">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> df_tmp.shape[<span class="dv">0</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generating pileup</span></span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>    pileup_large <span class="op">=</span> <span class="op">!</span>samtools mpileup <span class="op">-</span>B <span class="op">-</span>f $refseq <span class="op">-</span>l $poslist_file <span class="op">--</span>output<span class="op">-</span>QNAME <span class="op">-</span>d <span class="dv">0</span> <span class="op">-</span>q <span class="dv">30</span> <span class="op">-</span>Q <span class="dv">30</span> $bamfile</span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>    pileup_dict <span class="op">=</span> {k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">1</span>]:k <span class="cf">for</span> k <span class="kw">in</span> pileup_large[<span class="dv">2</span>:]}</span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining empty lists to store data</span></span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    df_out <span class="op">=</span> []</span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># iterating through mutation pairs where recombinant reads were found</span></span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mp <span class="kw">in</span> df_tmp[<span class="st">&quot;mutation_pair&quot;</span>]:</span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>        base_comb <span class="op">=</span> <span class="st">&quot; | &quot;</span>.join(<span class="bu">sorted</span>(mp.split(<span class="st">&quot; | &quot;</span>)))</span>
-<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>        base_comb_muts <span class="op">=</span> base_comb.split(<span class="st">&quot; | &quot;</span>)</span>
-<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> [<span class="bu">int</span>(k.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]) <span class="cf">for</span> k <span class="kw">in</span> base_comb_muts]</span>
-<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>        s_overlapping <span class="op">=</span> get_overlapping_reads_for_sample(s, p, pileup_dict)</span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>        s_recombinant <span class="op">=</span> get_recombinant_reads_for_sample(s, base_comb_muts, s_overlapping, pileup_dict)</span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>        <span class="co"># saving list of recombinant read IDs to a temporary file</span></span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(sample_short <span class="op">+</span> <span class="st">&quot;_recombinant_reads_tmp.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>            f.write(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>.join(s_recombinant))</span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>        <span class="co"># collecting read info from BAM file</span></span>
-<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> <span class="op">!</span>samtools view <span class="op">-</span>N $sample_short<span class="st">&quot;_recombinant_reads_tmp.txt&quot;</span> $bamfile</span>
-<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>        read_info_dict <span class="op">=</span> {s_rid: {<span class="st">&quot;isfound&quot;</span>: <span class="va">False</span>, <span class="st">&quot;isleader&quot;</span>: <span class="va">False</span>, <span class="st">&quot;issoftclipped&quot;</span>: <span class="va">False</span>, <span class="st">&quot;islongsoftclipped&quot;</span>: <span class="va">False</span>} </span>
-<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>                          <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant}</span>
-<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a><span class="co">#         counted_read_ids = []</span></span>
-<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pp <span class="kw">in</span> k:</span>
-<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>] <span class="kw">not</span> <span class="kw">in</span> s_recombinant:</span>
-<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a><span class="co">#             counted_read_ids.append(pp.split(&quot;\t&quot;)[0])</span></span>
-<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>            read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;isfound&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>            <span class="co"># checking for leader sequence (it can be in either the read or its mate)</span></span>
-<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">&quot;GTAGATCTGTTCTCT&quot;</span> <span class="kw">in</span> pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">9</span>]:</span>
-<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>                read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;isleader&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>            <span class="co"># checking for softclipped</span></span>
-<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>            read_s <span class="op">=</span> <span class="bu">int</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">3</span>])</span>
-<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>            read_e <span class="op">=</span> <span class="bu">int</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">3</span>]) <span class="op">+</span> <span class="bu">len</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">9</span>])</span>
-<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> read_s <span class="op">&lt;=</span> p[<span class="dv">0</span>] <span class="kw">and</span> read_e <span class="op">&gt;=</span> p[<span class="dv">1</span>]: <span class="co">#if read really overlaps mutation pair (and not its mate)</span></span>
-<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>                res <span class="op">=</span> re.split(<span class="st">&#39;(\d+)&#39;</span>, pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">5</span>])</span>
-<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>                cigar_char <span class="op">=</span> res[<span class="dv">2</span>::<span class="dv">2</span>]</span>
-<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>                cigar_num <span class="op">=</span> [<span class="bu">int</span>(k) <span class="cf">for</span> k <span class="kw">in</span> res[<span class="dv">1</span>::<span class="dv">2</span>]]</span>
-<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="st">&quot;S&quot;</span> <span class="kw">in</span> cigar_char:</span>
-<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>                    read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;issoftclipped&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> np.array(cigar_num)[np.array(cigar_char) <span class="op">==</span> <span class="st">&quot;S&quot;</span>].<span class="bu">sum</span>() <span class="op">&gt;</span> min_length_of_long_softclip:</span>
-<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>                        read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;islongsoftclipped&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>        s_df <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;readID&quot;</span>] <span class="op">=</span> [s_rid <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
-<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_leader&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;isleader&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
-<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_soft_clipped&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;issoftclipped&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
-<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_soft_clipped_long&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;islongsoftclipped&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
-<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;mutation_pair&quot;</span>] <span class="op">=</span> base_comb</span>
-<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>        df_out.append(s_df)</span>
-<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a>    df_out <span class="op">=</span> pd.concat(df_out)</span>
-<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>    df_out.to_csv(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_sgRNA/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_overlapping_reads_for_sample(s, p, pileup_dict):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    firstone <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pos <span class="kw">in</span> p:</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">str</span>(pos) <span class="kw">not</span> <span class="kw">in</span> pileup_dict:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> {}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> pileup_dict[<span class="bu">str</span>(pos)]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        reads <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">6</span>].split(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> firstone:</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> <span class="bu">set</span>(reads)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            firstone <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            overlapping_reads <span class="op">=</span> overlapping_reads.intersection(<span class="bu">set</span>(reads))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(overlapping_reads)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_recombinant_reads_for_sample(s, base_comb_muts, overlapping_reads, pileup_dict):</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    recombinant_reads <span class="op">=</span> []</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="bu">list</span>(overlapping_reads):</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        rt <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">sorted</span>(base_comb_muts):</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>            pos <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            var <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            mut <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="op">-</span><span class="dv">2</span>].upper()</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>            ref <span class="op">=</span> m.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">1</span>].upper()</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>            mut <span class="op">=</span> correct_mutation_string(ref, mut)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            k <span class="op">=</span> pileup_dict[<span class="bu">str</span>(pos)]</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">4</span>].upper()</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            bases <span class="op">=</span> get_base_list(b)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            reads <span class="op">=</span> k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">6</span>].split(<span class="st">&quot;,&quot;</span>)</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            bases <span class="op">=</span> np.array(bases)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            reads <span class="op">=</span> np.array(reads)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            base <span class="op">=</span> bases[reads <span class="op">==</span> r][<span class="dv">0</span>].upper()</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> base <span class="kw">in</span> [<span class="st">&quot;,&quot;</span>, <span class="st">&quot;.&quot;</span>]:</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;R&quot;</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> base <span class="op">==</span> mut:</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;M&quot;</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>                rt <span class="op">+=</span> <span class="st">&quot;O&quot;</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rt <span class="op">==</span> <span class="st">&quot;MM&quot;</span>:</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>            recombinant_reads.append(r)</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> recombinant_reads</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mkdir <span class="op">-</span>p data_for_recombinant_read_analysis<span class="op">/</span>recombination_sgRNA</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>min_length_of_long_softclip <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>si <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rid <span class="kw">in</span> <span class="bu">list</span>(df_samples[<span class="st">&quot;runid&quot;</span>]):</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(si, end<span class="op">=</span><span class="st">&quot; &quot;</span>)</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    si <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># getting basic info about sample</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    variant_combination, poslist_file, bamfile, sample_short <span class="op">=</span> prepare_sample_details(rid)</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check if sample has already been processed</span></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.isfile(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_sgRNA/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>):</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span>    </span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check if recombination detection results are already available</span></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.isfile(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_detection_results/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>):</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if no recombinant reads were found, also skip</span></span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_detection_results/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>)</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> df_tmp[df_tmp[<span class="st">&quot;recombinant_reads&quot;</span>]<span class="op">&gt;</span><span class="dv">0</span>]</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> df_tmp.shape[<span class="dv">0</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generating pileup</span></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>    pileup_large <span class="op">=</span> <span class="op">!</span>samtools mpileup <span class="op">-</span>B <span class="op">-</span>f $refseq <span class="op">-</span>l $poslist_file <span class="op">--</span>output<span class="op">-</span>QNAME <span class="op">-</span>d <span class="dv">0</span> <span class="op">-</span>q <span class="dv">30</span> <span class="op">-</span>Q <span class="dv">30</span> $bamfile</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>    pileup_dict <span class="op">=</span> {k.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">1</span>]:k <span class="cf">for</span> k <span class="kw">in</span> pileup_large[<span class="dv">2</span>:]}</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># defining empty lists to store data</span></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>    df_out <span class="op">=</span> []</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># iterating through mutation pairs where recombinant reads were found</span></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mp <span class="kw">in</span> df_tmp[<span class="st">&quot;mutation_pair&quot;</span>]:</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>        base_comb <span class="op">=</span> <span class="st">&quot; | &quot;</span>.join(<span class="bu">sorted</span>(mp.split(<span class="st">&quot; | &quot;</span>)))</span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>        base_comb_muts <span class="op">=</span> base_comb.split(<span class="st">&quot; | &quot;</span>)</span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> [<span class="bu">int</span>(k.split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]) <span class="cf">for</span> k <span class="kw">in</span> base_comb_muts]</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>        s_overlapping <span class="op">=</span> get_overlapping_reads_for_sample(s, p, pileup_dict)</span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>        s_recombinant <span class="op">=</span> get_recombinant_reads_for_sample(s, base_comb_muts, s_overlapping, pileup_dict)</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>        <span class="co"># saving list of recombinant read IDs to a temporary file</span></span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(sample_short <span class="op">+</span> <span class="st">&quot;_recombinant_reads_tmp.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>            f.write(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>.join(s_recombinant))</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>        <span class="co"># collecting read info from BAM file</span></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> <span class="op">!</span>samtools view <span class="op">-</span>N $sample_short<span class="st">&quot;_recombinant_reads_tmp.txt&quot;</span> $bamfile</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>        read_info_dict <span class="op">=</span> {s_rid: {<span class="st">&quot;isfound&quot;</span>: <span class="va">False</span>, <span class="st">&quot;isleader&quot;</span>: <span class="va">False</span>, <span class="st">&quot;issoftclipped&quot;</span>: <span class="va">False</span>, <span class="st">&quot;islongsoftclipped&quot;</span>: <span class="va">False</span>} </span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>                          <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant}</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a><span class="co">#         counted_read_ids = []</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pp <span class="kw">in</span> k:</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>] <span class="kw">not</span> <span class="kw">in</span> s_recombinant:</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a><span class="co">#             counted_read_ids.append(pp.split(&quot;\t&quot;)[0])</span></span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>            read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;isfound&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>            <span class="co"># checking for leader sequence (it can be in either the read or its mate)</span></span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">&quot;GTAGATCTGTTCTCT&quot;</span> <span class="kw">in</span> pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">9</span>]:</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>                read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;isleader&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>            <span class="co"># checking for softclipped</span></span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>            read_s <span class="op">=</span> <span class="bu">int</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">3</span>])</span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>            read_e <span class="op">=</span> <span class="bu">int</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">3</span>]) <span class="op">+</span> <span class="bu">len</span>(pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">9</span>])</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> read_s <span class="op">&lt;=</span> p[<span class="dv">0</span>] <span class="kw">and</span> read_e <span class="op">&gt;=</span> p[<span class="dv">1</span>]: <span class="co">#if read really overlaps mutation pair (and not its mate)</span></span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>                res <span class="op">=</span> re.split(<span class="st">&#39;(\d+)&#39;</span>, pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">5</span>])</span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>                cigar_char <span class="op">=</span> res[<span class="dv">2</span>::<span class="dv">2</span>]</span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>                cigar_num <span class="op">=</span> [<span class="bu">int</span>(k) <span class="cf">for</span> k <span class="kw">in</span> res[<span class="dv">1</span>::<span class="dv">2</span>]]</span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="st">&quot;S&quot;</span> <span class="kw">in</span> cigar_char:</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>                    read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;issoftclipped&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> np.array(cigar_num)[np.array(cigar_char) <span class="op">==</span> <span class="st">&quot;S&quot;</span>].<span class="bu">sum</span>() <span class="op">&gt;</span> min_length_of_long_softclip:</span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>                        read_info_dict[pp.split(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)[<span class="dv">0</span>]][<span class="st">&quot;islongsoftclipped&quot;</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>        s_df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;readID&quot;</span>] <span class="op">=</span> [s_rid <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_leader&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;isleader&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_soft_clipped&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;issoftclipped&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;is_soft_clipped_long&quot;</span>] <span class="op">=</span> [read_info_dict[s_rid][<span class="st">&quot;islongsoftclipped&quot;</span>] <span class="cf">for</span> s_rid <span class="kw">in</span> s_recombinant <span class="cf">if</span> read_info_dict[s_rid][<span class="st">&quot;isfound&quot;</span>]]</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>        s_df[<span class="st">&quot;mutation_pair&quot;</span>] <span class="op">=</span> base_comb</span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>        df_out.append(s_df)</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>    df_out <span class="op">=</span> pd.concat(df_out)</span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>    df_out.to_csv(<span class="st">&quot;data_for_recombinant_read_analysis/recombination_sgRNA/&quot;</span> <span class="op">+</span> sample_short <span class="op">+</span> <span class="st">&quot;.csv&quot;</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-execution_count="16">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>all_pos <span class="op">=</span> [<span class="bu">int</span>(k) <span class="cf">for</span> k <span class="kw">in</span> np.linspace(<span class="dv">1</span>,<span class="dv">30000</span>,<span class="dv">30000</span>)]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># loading all files with results of sgRNA detection</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>all_sgrna_files <span class="op">=</span> <span class="op">!</span>ls data_for_recombinant_read_analysis<span class="op">/</span>recombination_sgRNA<span class="op">/*</span>.csv</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sgrna_reads_neither <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>sgrna_reads_leader <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>sgrna_reads_sc <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>sgrna_reads_both <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fn <span class="kw">in</span> all_sgrna_files:</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    rid <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;shortname&quot;</span>] <span class="op">==</span> fn.split(<span class="st">&quot;/&quot;</span>)[<span class="op">-</span><span class="dv">1</span>].split(<span class="st">&quot;.&quot;</span>)[<span class="dv">0</span>]].iloc[<span class="dv">0</span>][<span class="st">&quot;runid&quot;</span>]</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rid <span class="kw">in</span> art_samples:</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    var_comb <span class="op">=</span> get_sorted_variants(df_coinf_allmuts[df_coinf_allmuts[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;variants&quot;</span>])</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(fn)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    df_tmptmp <span class="op">=</span> df_tmp.groupby([<span class="st">&quot;mutation_pair&quot;</span>, <span class="st">&quot;is_leader&quot;</span>, <span class="st">&quot;is_soft_clipped&quot;</span>], as_index<span class="op">=</span><span class="va">False</span>).count()</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ri, r <span class="kw">in</span> df_tmptmp.iterrows():</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        posmin <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">0</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        posmax <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pi <span class="kw">in</span> <span class="bu">range</span>(posmin, posmax<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> <span class="kw">not</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_neither[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="kw">not</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_sc[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> <span class="kw">not</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_leader[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_both[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>counts_neither <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_neither.values()))</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>counts_leader <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_leader.values()))</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>counts_both <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_both.values()))</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>counts_either <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_sc.values())) <span class="op">+</span> counts_leader <span class="op">+</span> counts_both</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co"># figure to ratio of reads containing the leader sequence along the genome     </span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> fig.add_gridspec(<span class="dv">2</span>, hspace<span class="op">=</span><span class="fl">0.5</span>, height_ratios <span class="op">=</span> [<span class="fl">0.2</span>, <span class="fl">0.8</span>])</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>axs <span class="op">=</span> gs.subplots(sharex<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">0</span>].hlines(y <span class="op">=</span> <span class="dv">0</span>, xmin<span class="op">=</span>gene_loc[g][<span class="dv">0</span>], xmax<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], lw<span class="op">=</span><span class="dv">30</span>, color <span class="op">=</span> color_dict[g])</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (yy <span class="op">==</span> <span class="dv">2</span>):</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;bottom&quot;</span></span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;left&quot;</span></span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;right&quot;</span></span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">0</span>].annotate(g, xy<span class="op">=</span> (np.mean([gene_loc[g][<span class="dv">0</span>], gene_loc[g][<span class="dv">1</span>]]), yy<span class="op">*</span><span class="fl">0.5</span>), </span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>                 xytext <span class="op">=</span> (np.mean([gene_loc[g][<span class="dv">0</span>], gene_loc[g][<span class="dv">1</span>]]), yy), rotation<span class="op">=</span><span class="dv">30</span>, ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va <span class="op">=</span> va_c, fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>                arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&quot;</span>))</span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    yy <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>,<span class="dv">30000</span>)</span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_axis_off()</span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>id_nonzero <span class="op">=</span> (counts_either<span class="op">+</span>counts_neither) <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].plot(np.array(all_pos)[id_nonzero], (counts_leader<span class="op">+</span>counts_both)[id_nonzero]<span class="op">/</span>(counts_either<span class="op">+</span>counts_neither)[id_nonzero])</span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlabel(<span class="st">&quot;Genomic position&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylabel(<span class="st">&quot;Percentage of recombinant reads</span><span class="ch">\n</span><span class="st"> with patterns of sgRNA&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlim(<span class="dv">0</span>,<span class="dv">30000</span>)</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylim(<span class="dv">0</span>,<span class="fl">0.3</span>)</span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].grid(visible<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].label_outer()</span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>ymin, ymax <span class="op">=</span> axs[<span class="dv">1</span>].get_ybound()</span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">1</span>].vlines(x<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], ymin<span class="op">=</span>ymin, ymax<span class="op">=</span>ymax, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].vlines(x<span class="op">=</span>gene_loc[<span class="st">&quot;ORF1ab&quot;</span>][<span class="dv">0</span>], ymin<span class="op">=</span>ymin, ymax<span class="op">=</span>ymax, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> axs[<span class="dv">1</span>].get_yticks()</span>
-<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].yaxis.set_major_locator(mticker.FixedLocator(vals))</span>
-<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_yticklabels([<span class="st">&#39;</span><span class="sc">{:.0%}</span><span class="st">&#39;</span>.<span class="bu">format</span>(x) <span class="cf">for</span> x <span class="kw">in</span> vals])</span>
-<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>all_pos <span class="op">=</span> [<span class="bu">int</span>(k) <span class="cf">for</span> k <span class="kw">in</span> np.linspace(<span class="dv">1</span>,<span class="dv">30000</span>,<span class="dv">30000</span>)]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># loading all files with results of sgRNA detection</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>all_sgrna_files <span class="op">=</span> <span class="op">!</span>ls data_for_recombinant_read_analysis<span class="op">/</span>recombination_sgRNA<span class="op">/*</span>.csv</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>sgrna_reads_neither <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>sgrna_reads_leader <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>sgrna_reads_sc <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>sgrna_reads_both <span class="op">=</span> {k: <span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fn <span class="kw">in</span> all_sgrna_files:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    rid <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;shortname&quot;</span>] <span class="op">==</span> fn.split(<span class="st">&quot;/&quot;</span>)[<span class="op">-</span><span class="dv">1</span>].split(<span class="st">&quot;.&quot;</span>)[<span class="dv">0</span>]].iloc[<span class="dv">0</span>][<span class="st">&quot;runid&quot;</span>]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rid <span class="kw">in</span> art_samples:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    var_comb <span class="op">=</span> get_sorted_variants(df_coinf_allmuts[df_coinf_allmuts[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;variants&quot;</span>])</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(fn)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    df_tmptmp <span class="op">=</span> df_tmp.groupby([<span class="st">&quot;mutation_pair&quot;</span>, <span class="st">&quot;is_leader&quot;</span>, <span class="st">&quot;is_soft_clipped&quot;</span>], as_index<span class="op">=</span><span class="va">False</span>).count()</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ri, r <span class="kw">in</span> df_tmptmp.iterrows():</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        posmin <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">0</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        posmax <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pi <span class="kw">in</span> <span class="bu">range</span>(posmin, posmax<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> <span class="kw">not</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_neither[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="kw">not</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_sc[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> <span class="kw">not</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_leader[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> r[<span class="st">&quot;is_leader&quot;</span>] <span class="kw">and</span> r[<span class="st">&quot;is_soft_clipped&quot;</span>]:</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>                sgrna_reads_both[pi] <span class="op">+=</span> r[<span class="st">&quot;readID&quot;</span>]</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>counts_neither <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_neither.values()))</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>counts_leader <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_leader.values()))</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>counts_both <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_both.values()))</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>counts_either <span class="op">=</span> np.array(<span class="bu">list</span>(sgrna_reads_sc.values())) <span class="op">+</span> counts_leader <span class="op">+</span> counts_both</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co"># figure to ratio of reads containing the leader sequence along the genome     </span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> fig.add_gridspec(<span class="dv">2</span>, hspace<span class="op">=</span><span class="fl">0.5</span>, height_ratios <span class="op">=</span> [<span class="fl">0.2</span>, <span class="fl">0.8</span>])</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>axs <span class="op">=</span> gs.subplots(sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">0</span>].hlines(y <span class="op">=</span> <span class="dv">0</span>, xmin<span class="op">=</span>gene_loc[g][<span class="dv">0</span>], xmax<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], lw<span class="op">=</span><span class="dv">30</span>, color <span class="op">=</span> color_dict[g])</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (yy <span class="op">==</span> <span class="dv">2</span>):</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;left&quot;</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;right&quot;</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">0</span>].annotate(g, xy<span class="op">=</span> (np.mean([gene_loc[g][<span class="dv">0</span>], gene_loc[g][<span class="dv">1</span>]]), yy<span class="op">*</span><span class="fl">0.5</span>), </span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                 xytext <span class="op">=</span> (np.mean([gene_loc[g][<span class="dv">0</span>], gene_loc[g][<span class="dv">1</span>]]), yy), rotation<span class="op">=</span><span class="dv">30</span>, ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va <span class="op">=</span> va_c, fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>                arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&quot;</span>))</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    yy <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>,<span class="dv">30000</span>)</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_axis_off()</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>id_nonzero <span class="op">=</span> (counts_either<span class="op">+</span>counts_neither) <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].plot(np.array(all_pos)[id_nonzero], (counts_leader<span class="op">+</span>counts_both)[id_nonzero]<span class="op">/</span>(counts_either<span class="op">+</span>counts_neither)[id_nonzero])</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlabel(<span class="st">&quot;Genomic position&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylabel(<span class="st">&quot;Percentage of recombinant reads</span><span class="ch">\n</span><span class="st"> with patterns of sgRNA&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_xlim(<span class="dv">0</span>,<span class="dv">30000</span>)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_ylim(<span class="dv">0</span>,<span class="fl">0.3</span>)</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].grid(visible<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].label_outer()</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>ymin, ymax <span class="op">=</span> axs[<span class="dv">1</span>].get_ybound()</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">1</span>].vlines(x<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], ymin<span class="op">=</span>ymin, ymax<span class="op">=</span>ymax, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].vlines(x<span class="op">=</span>gene_loc[<span class="st">&quot;ORF1ab&quot;</span>][<span class="dv">0</span>], ymin<span class="op">=</span>ymin, ymax<span class="op">=</span>ymax, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> axs[<span class="dv">1</span>].get_yticks()</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].yaxis.set_major_locator(mticker.FixedLocator(vals))</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>].set_yticklabels([<span class="st">&#39;</span><span class="sc">{:.0%}</span><span class="st">&#39;</span>.<span class="bu">format</span>(x) <span class="cf">for</span> x <span class="kw">in</span> vals])</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-sgrna" class="quarto-figure quarto-figure-center anchored">
@@ -4546,115 +4549,115 @@ Note
 <div class="cell" data-execution_count="19">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>bluecol <span class="op">=</span> <span class="st">&quot;#023e8a&quot;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>redcol <span class="op">=</span> <span class="st">&quot;#c1121f&quot;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df_recomb <span class="op">=</span> pd.read_csv(<span class="st">&quot;AFbased_recombinants_20230705.csv&quot;</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>AFrecomb_runids <span class="op">=</span> <span class="bu">list</span>(df_recomb[<span class="st">&quot;runid&quot;</span>])</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>gs_top <span class="op">=</span> plt.GridSpec(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>, <span class="dv">1</span>, </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                      height_ratios<span class="op">=</span>[<span class="dv">1</span><span class="op">/</span>(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>)]<span class="op">+</span>[<span class="dv">2</span><span class="op">/</span>(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>)]<span class="op">*</span><span class="bu">len</span>(AFrecomb_runids), </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                      top<span class="op">=</span><span class="fl">0.89</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>gs_base <span class="op">=</span> plt.GridSpec(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>, <span class="dv">1</span>, hspace<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># top panel showing genes</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>topax <span class="op">=</span> fig.add_subplot(gs_top[<span class="dv">0</span>,:])</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    gene_min <span class="op">=</span> gene_loc[g][<span class="dv">0</span>]</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    gene_max <span class="op">=</span> gene_loc[g][<span class="dv">1</span>]</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_max <span class="op">&lt;</span> <span class="dv">20000</span>:</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_min <span class="op">&lt;</span> <span class="dv">20000</span>:</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        gene_min <span class="op">=</span> <span class="dv">20000</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    topax.hlines(y <span class="op">=</span> <span class="dv">0</span>, xmin<span class="op">=</span>gene_min, xmax<span class="op">=</span>gene_max, lw<span class="op">=</span><span class="dv">30</span>, color <span class="op">=</span> color_dict[g])</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (yy <span class="op">==</span> <span class="dv">2</span>):</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;bottom&quot;</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;left&quot;</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;right&quot;</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    topax.annotate(g, xy<span class="op">=</span> (np.mean([gene_min, gene_max]), yy<span class="op">*</span><span class="fl">0.5</span>), </span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>                 xytext <span class="op">=</span> (np.mean([gene_min, gene_max]), yy), rotation<span class="op">=</span><span class="dv">30</span>, ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va <span class="op">=</span> va_c, fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>                arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&quot;</span>))</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    yy <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>topax.set_ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>topax.set_xlim(<span class="dv">20000</span>,<span class="dv">30000</span>)</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>topax.set_axis_off()</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> [fig.add_subplot(gs_base[<span class="dv">1</span>,:])]</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    axes.append(fig.add_subplot(gs_base[i,:], sharex<span class="op">=</span>axes[<span class="dv">0</span>]))</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">&quot;Genomic position&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="op">-</span><span class="dv">1</span>].tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes:    </span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">20000</span>,<span class="dv">30000</span>)</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">&quot;log&quot;</span>)</span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    ax.grid(visible<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    ax.label_outer()</span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rix, rid <span class="kw">in</span> <span class="bu">enumerate</span>(AFrecomb_runids):</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    shortname <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;shortname&quot;</span>]</span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    bp <span class="op">=</span> df_recomb[df_recomb[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;putative_breakpoint&quot;</span>]</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(<span class="st">&#39;data_for_recombinant_read_analysis/recombination_detection_results/&#39;</span><span class="op">+</span>shortname<span class="op">+</span><span class="st">&#39;.csv&#39;</span>)</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    num_of_overlapping_reads <span class="op">=</span> {k:<span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    num_of_recombinant_reads <span class="op">=</span> {k:<span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ri, r <span class="kw">in</span> df_tmp.iterrows():</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        posmin <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">0</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]) </span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        posmax <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pi <span class="kw">in</span> <span class="bu">range</span>(posmin, posmax<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>            num_of_overlapping_reads[pi] <span class="op">+=</span> r[<span class="st">&quot;number_of_overlapping_reads&quot;</span>]</span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>            num_of_recombinant_reads[pi] <span class="op">+=</span> r[<span class="st">&quot;recombinant_reads&quot;</span>]</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>    counts_overlapping_reads <span class="op">=</span> np.array(<span class="bu">list</span>(num_of_overlapping_reads.values()))</span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    id_nonzero <span class="op">=</span> counts_overlapping_reads <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    ratio_recomb_reads <span class="op">=</span> np.zeros_like(all_pos).astype(<span class="bu">float</span>)</span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    ratio_recomb_reads[id_nonzero] <span class="op">+=</span> np.array(<span class="bu">list</span>(num_of_recombinant_reads.values()))[id_nonzero]<span class="op">/</span>counts_overlapping_reads[id_nonzero]</span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>    axes[rix].plot(all_pos, counts_overlapping_reads, color<span class="op">=</span>bluecol, linestyle<span class="op">=</span><span class="st">&quot;dotted&quot;</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    axes[rix].tick_params(axis<span class="op">=</span><span class="st">&#39;y&#39;</span>, labelcolor<span class="op">=</span>bluecol)</span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    ax_tmp <span class="op">=</span> axes[rix].twinx()    </span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    ax_tmp.vlines(x <span class="op">=</span> bp, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    ax_tmp.plot(all_pos, ratio_recomb_reads, color<span class="op">=</span>redcol, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    ax_tmp.tick_params(axis<span class="op">=</span><span class="st">&#39;y&#39;</span>, labelcolor<span class="op">=</span>redcol)</span>
-<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    ax_tmp.set_ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    ax_tmp.set_yticks([<span class="dv">0</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>])</span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    ax_tmp.grid(<span class="va">False</span>)</span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>        ax_tmp.vlines(x<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    ax_tmp.vlines(x<span class="op">=</span>gene_loc[<span class="st">&quot;ORF1ab&quot;</span>][<span class="dv">0</span>], ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)    </span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>    sname <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;runid&quot;</span>]<span class="op">==</span>rid].iloc[<span class="dv">0</span>][<span class="st">&quot;sample_accession&quot;</span>]</span>
-<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rid <span class="kw">in</span> art_samples:</span>
-<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>        sname <span class="op">+=</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">(artificial mixture)&quot;</span></span>
-<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(sname, </span>
-<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (<span class="fl">0.005</span>, <span class="fl">0.94</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)</span>
-<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(<span class="bu">str</span>(num_of_overlapping_reads[bp]), </span>
-<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (bp<span class="op">+</span><span class="dv">50</span>, <span class="fl">0.94</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span>bluecol)</span>
-<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(<span class="bu">str</span>(<span class="bu">round</span>(ratio_recomb_reads[bp<span class="op">-</span><span class="dv">1</span>], <span class="dv">3</span>)), </span>
-<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (bp<span class="op">+</span><span class="dv">50</span>, <span class="fl">0.74</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span>redcol)</span>
-<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].annotate(<span class="st">&quot;Number of overlapping reads&quot;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">0.05</span>, <span class="dv">1</span><span class="op">-</span><span class="bu">len</span>(AFrecomb_runids)<span class="op">/</span><span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">12</span>, rotation<span class="op">=</span><span class="dv">90</span>, </span>
-<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>             ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va<span class="op">=</span><span class="st">&quot;center&quot;</span>, color<span class="op">=</span>bluecol,</span>
-<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>                 xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)        </span>
-<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].annotate(<span class="st">&quot;Ratio of recombinant reads&quot;</span>, xy <span class="op">=</span> (<span class="fl">1.05</span>, <span class="dv">1</span><span class="op">-</span><span class="bu">len</span>(AFrecomb_runids)<span class="op">/</span><span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">12</span>, rotation<span class="op">=-</span><span class="dv">90</span>, </span>
-<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>             ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va<span class="op">=</span><span class="st">&quot;center&quot;</span>, color<span class="op">=</span>redcol,</span>
-<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>                 xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)        </span>
-<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bluecol <span class="op">=</span> <span class="st">&quot;#023e8a&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>redcol <span class="op">=</span> <span class="st">&quot;#c1121f&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df_recomb <span class="op">=</span> pd.read_csv(<span class="st">&quot;AFbased_recombinants_20230705.csv&quot;</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>AFrecomb_runids <span class="op">=</span> <span class="bu">list</span>(df_recomb[<span class="st">&quot;runid&quot;</span>])</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>gs_top <span class="op">=</span> plt.GridSpec(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>, <span class="dv">1</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                      height_ratios<span class="op">=</span>[<span class="dv">1</span><span class="op">/</span>(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>)]<span class="op">+</span>[<span class="dv">2</span><span class="op">/</span>(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>)]<span class="op">*</span><span class="bu">len</span>(AFrecomb_runids), </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                      top<span class="op">=</span><span class="fl">0.89</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>gs_base <span class="op">=</span> plt.GridSpec(<span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>, <span class="dv">1</span>, hspace<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># top panel showing genes</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>topax <span class="op">=</span> fig.add_subplot(gs_top[<span class="dv">0</span>,:])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    gene_min <span class="op">=</span> gene_loc[g][<span class="dv">0</span>]</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    gene_max <span class="op">=</span> gene_loc[g][<span class="dv">1</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_max <span class="op">&lt;</span> <span class="dv">20000</span>:</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_min <span class="op">&lt;</span> <span class="dv">20000</span>:</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        gene_min <span class="op">=</span> <span class="dv">20000</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    topax.hlines(y <span class="op">=</span> <span class="dv">0</span>, xmin<span class="op">=</span>gene_min, xmax<span class="op">=</span>gene_max, lw<span class="op">=</span><span class="dv">30</span>, color <span class="op">=</span> color_dict[g])</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (yy <span class="op">==</span> <span class="dv">2</span>):</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;left&quot;</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        va_c <span class="op">=</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        ha_c <span class="op">=</span> <span class="st">&quot;right&quot;</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    topax.annotate(g, xy<span class="op">=</span> (np.mean([gene_min, gene_max]), yy<span class="op">*</span><span class="fl">0.5</span>), </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                 xytext <span class="op">=</span> (np.mean([gene_min, gene_max]), yy), rotation<span class="op">=</span><span class="dv">30</span>, ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va <span class="op">=</span> va_c, fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>                arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&quot;</span>))</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    yy <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>topax.set_ylim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>topax.set_xlim(<span class="dv">20000</span>,<span class="dv">30000</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>topax.set_axis_off()</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> [fig.add_subplot(gs_base[<span class="dv">1</span>,:])]</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="bu">len</span>(AFrecomb_runids)<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    axes.append(fig.add_subplot(gs_base[i,:], sharex<span class="op">=</span>axes[<span class="dv">0</span>]))</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">&quot;Genomic position&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="op">-</span><span class="dv">1</span>].tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes:    </span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">20000</span>,<span class="dv">30000</span>)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">&quot;log&quot;</span>)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    ax.grid(visible<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    ax.label_outer()</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">&quot;#666666&quot;</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rix, rid <span class="kw">in</span> <span class="bu">enumerate</span>(AFrecomb_runids):</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    shortname <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;shortname&quot;</span>]</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    bp <span class="op">=</span> df_recomb[df_recomb[<span class="st">&quot;runid&quot;</span>] <span class="op">==</span> rid].iloc[<span class="dv">0</span>][<span class="st">&quot;putative_breakpoint&quot;</span>]</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="op">=</span> pd.read_csv(<span class="st">&#39;data_for_recombinant_read_analysis/recombination_detection_results/&#39;</span><span class="op">+</span>shortname<span class="op">+</span><span class="st">&#39;.csv&#39;</span>)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>    num_of_overlapping_reads <span class="op">=</span> {k:<span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    num_of_recombinant_reads <span class="op">=</span> {k:<span class="dv">0</span> <span class="cf">for</span> k <span class="kw">in</span> all_pos}</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ri, r <span class="kw">in</span> df_tmp.iterrows():</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        posmin <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">0</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>]) </span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        posmax <span class="op">=</span> <span class="bu">int</span>(r[<span class="st">&quot;mutation_pair&quot;</span>].split(<span class="st">&quot; | &quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;_&quot;</span>)[<span class="dv">0</span>])</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pi <span class="kw">in</span> <span class="bu">range</span>(posmin, posmax<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>            num_of_overlapping_reads[pi] <span class="op">+=</span> r[<span class="st">&quot;number_of_overlapping_reads&quot;</span>]</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>            num_of_recombinant_reads[pi] <span class="op">+=</span> r[<span class="st">&quot;recombinant_reads&quot;</span>]</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>    counts_overlapping_reads <span class="op">=</span> np.array(<span class="bu">list</span>(num_of_overlapping_reads.values()))</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>    id_nonzero <span class="op">=</span> counts_overlapping_reads <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    ratio_recomb_reads <span class="op">=</span> np.zeros_like(all_pos).astype(<span class="bu">float</span>)</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    ratio_recomb_reads[id_nonzero] <span class="op">+=</span> np.array(<span class="bu">list</span>(num_of_recombinant_reads.values()))[id_nonzero]<span class="op">/</span>counts_overlapping_reads[id_nonzero]</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>    axes[rix].plot(all_pos, counts_overlapping_reads, color<span class="op">=</span>bluecol, linestyle<span class="op">=</span><span class="st">&quot;dotted&quot;</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>    axes[rix].tick_params(axis<span class="op">=</span><span class="st">&#39;y&#39;</span>, labelcolor<span class="op">=</span>bluecol)</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>    ax_tmp <span class="op">=</span> axes[rix].twinx()    </span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>    ax_tmp.vlines(x <span class="op">=</span> bp, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    ax_tmp.plot(all_pos, ratio_recomb_reads, color<span class="op">=</span>redcol, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    ax_tmp.tick_params(axis<span class="op">=</span><span class="st">&#39;y&#39;</span>, labelcolor<span class="op">=</span>redcol)</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>    ax_tmp.set_ylim(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>    ax_tmp.set_yticks([<span class="dv">0</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>])</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>    ax_tmp.grid(<span class="va">False</span>)</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> g <span class="kw">in</span> gene_loc.keys():</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>        ax_tmp.vlines(x<span class="op">=</span>gene_loc[g][<span class="dv">1</span>], ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>    ax_tmp.vlines(x<span class="op">=</span>gene_loc[<span class="st">&quot;ORF1ab&quot;</span>][<span class="dv">0</span>], ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.5</span>)    </span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>    sname <span class="op">=</span> df_samples[df_samples[<span class="st">&quot;runid&quot;</span>]<span class="op">==</span>rid].iloc[<span class="dv">0</span>][<span class="st">&quot;sample_accession&quot;</span>]</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rid <span class="kw">in</span> art_samples:</span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>        sname <span class="op">+=</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">(artificial mixture)&quot;</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(sname, </span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (<span class="fl">0.005</span>, <span class="fl">0.94</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(<span class="bu">str</span>(num_of_overlapping_reads[bp]), </span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (bp<span class="op">+</span><span class="dv">50</span>, <span class="fl">0.94</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span>bluecol)</span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>    ax_tmp.annotate(<span class="bu">str</span>(<span class="bu">round</span>(ratio_recomb_reads[bp<span class="op">-</span><span class="dv">1</span>], <span class="dv">3</span>)), </span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>                    xy <span class="op">=</span> (bp<span class="op">+</span><span class="dv">50</span>, <span class="fl">0.74</span>), fontsize<span class="op">=</span><span class="dv">10</span>, ha<span class="op">=</span><span class="st">&quot;left&quot;</span>, va<span class="op">=</span><span class="st">&quot;top&quot;</span>, color<span class="op">=</span>redcol)</span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].annotate(<span class="st">&quot;Number of overlapping reads&quot;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">0.05</span>, <span class="dv">1</span><span class="op">-</span><span class="bu">len</span>(AFrecomb_runids)<span class="op">/</span><span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">12</span>, rotation<span class="op">=</span><span class="dv">90</span>, </span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>             ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va<span class="op">=</span><span class="st">&quot;center&quot;</span>, color<span class="op">=</span>bluecol,</span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a>                 xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)        </span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].annotate(<span class="st">&quot;Ratio of recombinant reads&quot;</span>, xy <span class="op">=</span> (<span class="fl">1.05</span>, <span class="dv">1</span><span class="op">-</span><span class="bu">len</span>(AFrecomb_runids)<span class="op">/</span><span class="dv">2</span>), fontsize<span class="op">=</span><span class="dv">12</span>, rotation<span class="op">=-</span><span class="dv">90</span>, </span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>             ha<span class="op">=</span><span class="st">&quot;center&quot;</span>, va<span class="op">=</span><span class="st">&quot;center&quot;</span>, color<span class="op">=</span>redcol,</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a>                 xycoords <span class="op">=</span> <span class="st">&quot;axes fraction&quot;</span>)        </span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-compareafwithreads" class="quarto-figure quarto-figure-center anchored">
