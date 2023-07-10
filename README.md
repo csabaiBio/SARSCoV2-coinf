@@ -1,6 +1,6 @@
 # Systematic detection of co-infection and intra-host recombination in more than 2 million global SARS-CoV-2 samples 
 
-**Orsolya Anna Pipek, Anna Medgyes-Horváth, József Stéger, Krisztián Papp, Dávid Visontai, VEO Technical Working Group, István Csabai**
+**Orsolya Anna Pipek, Anna Medgyes-Horváth, József Stéger, Krisztián Papp, Dávid Visontai, Marion Koopmans, David Nieuwenhuijse, Bas B. Oude Munnink, VEO Technical Working Group, István Csabai**
 
 >Systematic monitoring of SARS-CoV-2 co-infections between different lineages and assessing the risk of intra-host recombinant emergence are crucial for forecasting viral evolution. Here we present a comprehensive analysis of more than 2 million SARS-CoV-2 raw read datasets submitted to the European COVID-19 Data Portal to identify co-infections and intra-host recombination. Co-infection was observed in 0.35% of the investigated cases. Two independent procedures were implemented to detect intra-host recombination. We show that sensitivity is predominantly determined by the density of lineage-defining mutations along the genome, thus we used an expanded list of mutually exclusive defining mutations of specific variant combinations to increase statistical power. We call attention to multiple challenges rendering recombinant detection difficult and provide guidelines for the reduction of false positives arising from chimeric sequences produced during PCR amplification. Additionally, we identify three recombination hotspots of Delta – Omicron BA.1 intra-host recombinants. 
 
