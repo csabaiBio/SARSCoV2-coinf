@@ -9,8 +9,8 @@ This repository contains additional data files, supplementary figures and analys
 
 ## Supplementary files
 
-- **Supplementary Figure 1.** The number of samples in the [CoVEO](https://www.covid19dataportal.org/coveo) database. **A.** The number of good-quality
-SARS-CoV-2 samples with a human host assigned to different variants in the CoVEO database. **B.** The
+- **Supplementary Figure 1.** The number of samples in the [CoVEO](https://www.covid19dataportal.org/coveo) database. **a.** The number of good-quality
+SARS-CoV-2 samples with a human host assigned to different variants in the CoVEO database. **b.** The
 relationship between the total number of samples assigned to a specific variant and the number of coinfection
 samples containing the variant. The straight black line represents a linear dependence with a slope
 of 1 on a log-log graph. R represents the Pearson-correlation coefficient. [\[png\]](SuppFigures/SuppFig1.png) [\[pdf\]](SuppFigures/SuppFig1.pdf)
