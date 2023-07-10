@@ -24,7 +24,7 @@ of 1 on a log-log graph. R represents the Pearson-correlation coefficient. [\[pn
 - **Supplementary Table 4.** Mutually exclusive defining mutations of specific variant combinations, defined as mutations present in at least 80% of GISAID samples assigned to the given variant, while simultaneously present in less than 10% of the samples assigned to any other variant(s) of the variant combination. (Variant combinations for which no more than 10 putative co-infection samples were detected based on unique defining mutations alone (Supplementary Tables 2 and 3) are not listed.) [\[xlsx\]](SuppTables/SuppTable4.xlsx) [\[csv\]](SuppTables/SuppTable4.csv)
 
 
-- **Supplementary File 1 - analysis pipeline.** PostgreSQL queries for co-infection detection using the CoVEO database. [\[html\]](pipelines/SuppFile1_coinf_pipeline.html)
+- **Supplementary Methods 1 - analysis pipeline.** PostgreSQL queries for co-infection detection using the CoVEO database. [\[html\]](pipelines/SuppFile1_coinf_pipeline.html)
   - **Contents:** In this notebook, we query the CoVEO PostgreSQL database to identify SARS-CoV-2 co-infection samples. To this end, we select samples that carry a convincing ratio of unique defining mutations of multiple variant strains. We further refine the set of samples by considering all mutually exclusive defining mutations of their variant combination, finally setting a threshold of 80% for the ratio of mutually exclusive defining mutations that have to be present in all composing variants for a sample to be deemed a co-infection case.
   - **Data files needed as input:**
       - list of mutations with lineage-specific prevalences in the GISAID database
@@ -33,10 +33,10 @@ of 1 on a log-log graph. R represents the Pearson-correlation coefficient. [\[pn
   - **Data files generated as output:**
       - Supplementary Tables 1-4.
       - Additional data files 1-4.     
-- **Supplementary File 2 - analysis pipeline.** Allele frequency-based identification of putative co-infection samples containing trace amounts of recombinant genomes. [\[html\]](pipelines/SuppFile2_AF_pipeline.html)
+- **Supplementary Methods 2 - analysis pipeline.** Allele frequency-based identification of putative co-infection samples containing trace amounts of recombinant genomes. [\[html\]](pipelines/SuppFile2_AF_pipeline.html)
   - **Contents:** In this notebook, we investigate the alternate allele frequency distributions measured in co-infection samples at the genomic positions of mutually exclusive variant-defining mutations. Our analysis reveals a systematic bias in standardized allele frequency values in samples of specific variant combinations. To detect putative recombinants based on alternate allele frequency shifts along the genome, we employ an initial hard-filtering step on co-infection samples and finally refine our results by introducing a pipeline which is aimed to correct for the above described bias in alternate allele frequency distributions in specific genomic positions. Finally, a list of putative subclonal recombinant samples is selected.
   - **Data files needed as input:** Additional data files 3 and 4
-- **Supplementary File 3 - analysis pipeline.** Traces of read-level recombination in co-infection samples. [\[html\]](pipelines/SuppFile3_read_pipeline.html)
+- **Supplementary Methods 3 - analysis pipeline.** Traces of read-level recombination in co-infection samples. [\[html\]](pipelines/SuppFile3_read_pipeline.html)
   - **Contents:** In this notebook, we analyse a subset of previously identified co-infection samples for the presence of short reads that overlap variant-defining mutations of both parental strains of the sample and carry both of these mutations simultaneously. We investigate how the genomic distribution of canonical lineage-specific mutations inherently affects the distribution of overlapping reads and thus the detectability of recombination breakpoints. We further examine reads carrying traces of recombination for recombination hotspots, traces of subgenomic RNA, comparability to AF-based analysis results and possible chimeric origin. As an introduction, we discuss the technical and theoretical challenges of subclonal recombinant detection.
   - **Data files needed as input:** Additional data files 3 and 5
 
