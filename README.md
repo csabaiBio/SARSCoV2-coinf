@@ -86,8 +86,13 @@ of 1 on a log-log graph. R represents the Pearson-correlation coefficient. [\[pn
       - `instrument_model`: model of sequencing instrument
       - `host`: virus-host
       - `description`: string provided by the uploader describing the sample/experiment
+      - `library_strategy`: library strategy used during sequencing
+      - `library_selection`: technique for library selection
+      - `primer_type`: name of the primer set used for amplification
+      - `base_count`: total number of bases produced during sequencing
+      - `estimated_n_content`: the ratio of genomic positions for which sequencing depth did not reach 10
 
 - **Additional data file 5.** 118 co-infection samples selected for read-level analysis. [\[tar.gz\]](data/datafile5.tar.gz)
-  -   fields: same as for Additional data file 4. (above)
+  -   fields: `runid`, `sample_accession`, `experiment_accession`, `study_accession` (same as for Additional data file 4. (above))
   -   Sample selection: The original set of previously detected 7,700 co-infection samples was first limited to those 7,290 that contained traces of exactly two variants. (I.e. samples identified as the mixtures of three or more variant strains were discarded.) Then the resulting set of samples was further downsampled to a set of 100 samples for the read-level analysis to decrease computation time and simultaneously preserve the prevalence of specific variant combinations. The 13 co-infection samples identified as putative subclonal recombinants based on alternate allele frequency (AF) shifts along their genome (see Supplementary File 1) were added to this list, along with 5 artificial mixture samples of study PRJNA827817, resulting in altogether 118 samples for read-level explorations.
 
