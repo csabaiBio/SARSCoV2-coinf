@@ -3317,7 +3317,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The following code generates <strong>Supplementary Table 2.</strong> and <strong>Supplementary Table 3.</strong></p>
+<p>The following code generates <strong>Supplementary Data 2.</strong> and <strong>Supplementary Data 3.</strong></p>
 </div>
 </div>
 <div class="cell" data-execution_count="175">
@@ -3352,7 +3352,7 @@ Note
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>df_markers <span class="op">=</span> df_markers_all[(df_markers_all[<span class="st">&quot;largest_af&quot;</span>] <span class="op">&gt;</span> <span class="fl">0.8</span>) <span class="op">&amp;</span> (df_markers_all[<span class="st">&quot;second_largest_af&quot;</span>] <span class="op">&lt;</span> <span class="fl">0.1</span>)]</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># generating and saving Supplementary Table 2.</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># generating and saving Supplementary Data 2.</span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>supptable2 <span class="op">=</span> df_markers[[<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;ref&quot;</span>, <span class="st">&quot;alt&quot;</span>, </span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;largest_af&quot;</span>, <span class="st">&quot;largest_af_variant&quot;</span>, <span class="st">&quot;second_largest_af&quot;</span>, <span class="st">&quot;second_largest_af_variant&quot;</span>]]</span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>supptable2[<span class="st">&quot;largest_af&quot;</span>] <span class="op">=</span> supptable2[<span class="st">&quot;largest_af&quot;</span>]<span class="op">*</span><span class="dv">100</span></span>
@@ -3375,7 +3375,7 @@ Note
 <span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>                                                                                       <span class="st">&quot;pos&quot;</span>:<span class="st">&quot;num_unique_defmuts&quot;</span>}).sort_values(by<span class="op">=</span><span class="st">&quot;num_unique_defmuts&quot;</span>, </span>
 <span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>                                                                                                                                ascending<span class="op">=</span><span class="va">False</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="co"># generating and saving Supplementary Table 3.</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="co"># generating and saving Supplementary Data 3.</span></span>
 <span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>df_marker_nums.rename(columns<span class="op">=</span>{<span class="st">&quot;num_unique_defmuts&quot;</span>: <span class="st">&quot;number of unique defining mutations&quot;</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>df_marker_nums.to_csv(<span class="st">&quot;SuppTable3.csv&quot;</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
@@ -3621,7 +3621,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The following code generates <strong>Additional Datafile 2.</strong> and <strong>Supplementary Table 4.</strong></p>
+<p>The following code generates <strong>Additional Datafile 2.</strong> and <strong>Supplementary Data 4.</strong></p>
 </div>
 </div>
 <div class="cell" data-execution_count="176">
@@ -3731,7 +3731,7 @@ Note
 <span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>disjunct_markers_all[<span class="st">&quot;putative combination of variants&quot;</span>] <span class="op">=</span> disjunct_markers_all[<span class="st">&quot;putative combination of variants&quot;</span>].cat.set_categories(sorter)</span>
 <span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>disjunct_markers_all.sort_values([<span class="st">&quot;putative combination of variants&quot;</span>, <span class="st">&quot;mutually exclusive mutation of variant&quot;</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a><span class="co"># saving Supplementary Table 4.</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a><span class="co"># saving Supplementary Data 4.</span></span>
 <span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>disjunct_markers_all.to_csv(<span class="st">&quot;SuppTable4.csv&quot;</span>, index<span class="op">=</span><span class="va">False</span>, sep<span class="op">=</span><span class="st">&quot;;&quot;</span>)</span>
 <span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a><span class="co"># samples: merging all tables for different variant combinations</span></span>
@@ -4075,7 +4075,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The following code generates <strong>Supplementary Table 1.</strong></p>
+<p>The following code generates <strong>Supplementary Data 1.</strong></p>
 </div>
 </div>
 <div class="cell" data-execution_count="14">
@@ -4103,7 +4103,7 @@ Note
 <span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>df_study_data[<span class="st">&quot;co-infection prevalence (%)&quot;</span>] <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>df_study_data[<span class="st">&quot;number of co-infection samples&quot;</span>]<span class="op">/</span>df_study_data[<span class="st">&quot;number of good-quality samples in the study&quot;</span>]</span>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>df_study_data.sort_values(by <span class="op">=</span> <span class="st">&quot;number of good-quality samples in the study&quot;</span>, ascending <span class="op">=</span> <span class="va">False</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># saving Supplementary Table 1.</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># saving Supplementary Data 1.</span></span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>df_study_data.to_csv(<span class="st">&quot;SuppTable1.csv&quot;</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
